@@ -1,0 +1,65 @@
+<%- include("partials/header", {userName : userName}) -%>
+
+  <!-- <h1 class="my-auto text-center h3 font-weight-normal">Site List</h1> -->
+  <form style="margin: auto; padding: 20px;" action="/home/search" method="post" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="text" name="searchTxt" placeholder="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+  <div class="d-flex my-auto justify-content-center align-items-center home-table">
+    
+    <table class="table table-striped text-center">
+      <thead>
+        <tr>
+          <th scope="col">SI. No</th>
+          <th scope="col">Site Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let i=1 %>
+          <% items.forEach(function(item){ %>
+            <tr>
+              <th scope="row">
+                <%= i++ %>
+              </th>
+              <td>
+                <%= item.SiteName %>
+              </td>
+              <td>
+                <a class="text-decoration-none" href="/edit/<%= item._id %>">
+                  <button class="btn btn-outline-dark" type="button">Edit</button>
+                </a>
+                <!-- <span> / </span> -->
+                <!-- <a> -->
+                <button class="btn btn-outline-danger" onclick="popupFunc(this)" id="deleteBtn" deleteId="<%= item._id %>"
+                  deleteName="<%= item.SiteName %>" type="button">Delete</button>
+                <!-- </a> -->
+              </td>
+              <!-- <td>
+          <form style="display: inline-block" action="/editSite" method="get">
+            <button type="submit" name="editId" value="<%= item.id %>">Edit</button>
+          </form>
+          <span>/</span>
+          <form style="display: inline-block" action="/deleteSite" method="get">
+            <button type="submit" name="deleteId" value="<%= item.id %>">
+              Delete
+            </button>
+          </form>
+        </td> -->
+            </tr>
+            <% }); %>
+      </tbody>
+      <tr>
+        <td colspan="3">
+          <a class="text-decoration-none" href="/add">
+            <button class="btn btn-md btn-outline-info rounded-pill" type="button">Add New</button>
+          </a>
+        </td>
+      </tr>
+    </table>
+    
+  </div>
+  <!-- <a class="text-center text-decoration-none" href="/Add">
+    <button class="btn btn-md btn-outline-info rounded-pill" type="button">Add New</button>
+  </a> -->
+  <%- include("partials/footer") -%>

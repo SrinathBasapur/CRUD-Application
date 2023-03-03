@@ -1,0 +1,84 @@
+<!-- <% if (req.session && req.session.route !== '/home') { %>
+    <form style="display:none;" action="/search" method="post" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" name="searchTxt" placeholder="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  <% } else { %>
+    <form action="/search" method="post" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" name="searchTxt" placeholder="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+<% } %> -->
+
+
+
+
+
+
+app.post("/home/search", (req, res) => {
+  // console.log(req.headers.referer);
+  // console.log(req.body.searchTxt);
+  // let url = req.headers.referer.toLowerCase();
+  // if (
+  //   url === "http://localhost:8000/home" ||
+  //   url === "http://localhost:8000/search"
+  // ) {
+    Item.find(
+      {
+        IsActive: true,
+        SiteName: { $regex: req.body.searchTxt, $options: "i" },
+      },
+      function (err, foundItems) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.render("home.ejs", { items: foundItems, userName: userName });
+        }
+      }
+    );
+  // } else {
+  //   res.redirect(url);
+  // }
+});
+
+
+
+<form class="form-signin" action="/add" method="post">
+  <h1 class="h3 mb-4 font-weight-normal">Add Site</h1>
+  <label for="name" class="sr-only">Site Name</label>
+  <input type="text" id="name" name="siteName" class="form-control rounded-pill" placeholder="Site Name" required>
+  <button class="mt-3 btn btn-lg btn-outline-info btn-block rounded-pill" type="submit">Save</button>
+</form>
+
+
+
+
+app.post("/add", (req, res) => {
+  const itemName = req.body.siteName.trim();
+
+  const item = new Item({
+    SiteName: itemName,
+    CreatedBy: userName.toLowerCase(),
+    ModifiedBy: userName.toLowerCase(),
+  });
+
+  item.save(function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/home");
+    }
+  });
+});
+
+
+
+
+use list items to right and add icon on left side // done
+change header bootstrap along with footer // done
+change edit field when update button click without changing anything // done
+change get request handling to _id instead of siteid // done
+remove sarting and edning space while saving data to database // done
+don't enter duplicate record // done
+collapse code
+pagination
